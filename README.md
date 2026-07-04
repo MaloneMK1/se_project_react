@@ -22,3 +22,9 @@ The app fetches weather data, shows the current date and location, filters a set
 - Cards are filtered by weather type
 - Add garment modal opens and closes
 - Item preview modal opens when a clothing card is clicked
+
+## Author
+
+- Name: Eric Malone
+- Email: Malone1913@gmail.com
+- GitHub: https://github.com/MaloneMK1?tab=repositories
