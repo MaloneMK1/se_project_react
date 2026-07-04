@@ -1,0 +1,12 @@
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding-top: 85px;
+}
+
+.footer__text {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.25;
+}

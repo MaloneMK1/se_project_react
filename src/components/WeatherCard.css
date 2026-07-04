@@ -1,0 +1,29 @@
+.weather-card {
+  min-height: 80px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  padding: 20px 16px;
+  box-sizing: border-box;
+  background: linear-gradient(90deg, #5297d5 0%, #74c2e1 100%);
+  color: #fff;
+}
+
+.weather-card_type_hot {
+  background: linear-gradient(90deg, #e86a33 0%, #f6b45d 100%);
+}
+
+.weather-card_type_warm {
+  background: linear-gradient(90deg, #2f80ed 0%, #56ccf2 100%);
+}
+
+.weather-card_type_cold {
+  background: linear-gradient(90deg, #395f9d 0%, #8fb4d8 100%);
+}
+
+.weather-card__temp {
+  margin: 0;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+}

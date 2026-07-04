@@ -1,0 +1,30 @@
+.main {
+  flex: 1;
+  padding-top: 28px;
+}
+
+.cards {
+  padding-top: 40px;
+}
+
+.cards__text {
+  margin: 0 0 34px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.cards__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+@media screen and (max-width: 720px) {
+  .cards__list {
+    justify-content: center;
+  }
+}
