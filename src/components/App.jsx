@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "../App.css";
 import { defaultClothingItems } from "../utils/clothingItems";
-import { APIkey, coordinates } from "../utils/constants";
+import { apiKey, coordinates } from "../utils/constants";
 import { getWeather } from "../utils/weatherApi";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -22,7 +22,7 @@ function App() {
   const [selectedCard, setSelectedCard] = useState(null);
 
   useEffect(() => {
-    getWeather(coordinates, APIkey)
+    getWeather(coordinates, apiKey)
       .then((data) => {
         setWeatherData(data);
       })
