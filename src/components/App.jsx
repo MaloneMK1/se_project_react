@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "../App.css";
 import { defaultClothingItems } from "../utils/clothingItems";
 import { apiKey, coordinates } from "../utils/constants";
@@ -21,14 +21,17 @@ function App() {
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState(null);
 
+  const handleCloseModal = useCallback(() => {
+    setActiveModal("");
+    setSelectedCard(null);
+  }, []);
+
   useEffect(() => {
     getWeather(coordinates, apiKey)
       .then((data) => {
         setWeatherData(data);
       })
-      .catch((error) => {
-        console.error(error);
-      });
+      .catch(console.error);
   }, []);
 
   useEffect(() => {
@@ -38,8 +41,7 @@ function App() {
 
     function handleEscClose(event) {
       if (event.key === "Escape") {
-        setActiveModal("");
-        setSelectedCard(null);
+        handleCloseModal();
       }
     }
 
@@ -48,7 +50,7 @@ function App() {
     return () => {
       document.removeEventListener("keydown", handleEscClose);
     };
-  }, [activeModal]);
+  }, [activeModal, handleCloseModal]);
 
   function handleAddClick() {
     setActiveModal("add-garment");
@@ -57,11 +59,6 @@ function App() {
   function handleCardClick(card) {
     setSelectedCard(card);
     setActiveModal("preview");
-  }
-
-  function handleCloseModal() {
-    setActiveModal("");
-    setSelectedCard(null);
   }
 
   return (
