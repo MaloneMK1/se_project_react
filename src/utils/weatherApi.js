@@ -1,10 +1,4 @@
-function checkResponse(response) {
-  if (response.ok) {
-    return response.json();
-  }
-
-  return Promise.reject(`Error: ${response.status}`);
-}
+import { checkResponse } from "./api";
 
 export function getWeatherCondition(temperature) {
   if (temperature >= 86) {
