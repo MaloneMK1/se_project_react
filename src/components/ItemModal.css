@@ -48,6 +48,9 @@
 
 .item-modal__footer {
   padding: 20px 32px 32px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
 }
 
 .item-modal__title,
@@ -60,4 +63,16 @@
 
 .item-modal__title {
   margin-bottom: 12px;
+}
+
+.item-modal__delete-button {
+  align-self: flex-start;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #ff4d00;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
 }

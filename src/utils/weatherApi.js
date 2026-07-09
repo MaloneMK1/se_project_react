@@ -24,6 +24,7 @@ export function filterWeatherData(weatherApiResponse) {
   return {
     temp: {
       F: temperature,
+      C: Math.round((temperature - 32) * (5 / 9)),
     },
     city: weatherApiResponse.name,
     type: getWeatherCondition(temperature),

@@ -13,6 +13,18 @@
   gap: 20px;
 }
 
+.header__logo-link,
+.header__profile-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.header__profile-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .header__logo {
   width: 89px;
   height: 40px;
