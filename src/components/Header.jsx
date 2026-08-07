@@ -1,9 +1,36 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
-import "./Header.css";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import headerLogo from "../assets/TripleTenLogo.png";
+import "./Header.css";
 import ToggleSwitch from "./ToggleSwitch";
 
-function Header({ weatherData, onAddClick }) {
+function UserAvatar({ user, className }) {
+  if (user?.avatar) {
+    return (
+      <img
+        className={className}
+        src={user.avatar}
+        alt={`${user.name} avatar`}
+      />
+    );
+  }
+
+  return (
+    <div className={className} aria-label={`${user?.name || "User"} avatar`}>
+      {user?.name?.charAt(0).toUpperCase() || "?"}
+    </div>
+  );
+}
+
+function Header({
+  weatherData,
+  isLoggedIn,
+  onAddClick,
+  onLoginClick,
+  onRegisterClick,
+}) {
+  const currentUser = useContext(CurrentUserContext);
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
@@ -21,15 +48,38 @@ function Header({ weatherData, onAddClick }) {
       </div>
       <div className="header__user">
         <ToggleSwitch />
-        <button className="header__add-button" type="button" onClick={onAddClick}>
-          + Add clothes
-        </button>
-        <Link className="header__profile-link" to="/profile">
-          <p className="header__username">Eric</p>
-          <div className="header__avatar" aria-label="Eric avatar">
-            E
+        {isLoggedIn ? (
+          <>
+            <button
+              className="header__add-button"
+              type="button"
+              onClick={onAddClick}
+            >
+              + Add clothes
+            </button>
+            <Link className="header__profile-link" to="/profile">
+              <p className="header__username">{currentUser?.name}</p>
+              <UserAvatar user={currentUser} className="header__avatar" />
+            </Link>
+          </>
+        ) : (
+          <div className="header__auth-buttons">
+            <button
+              className="header__auth-button"
+              type="button"
+              onClick={onRegisterClick}
+            >
+              Sign up
+            </button>
+            <button
+              className="header__auth-button"
+              type="button"
+              onClick={onLoginClick}
+            >
+              Log in
+            </button>
           </div>
-        </Link>
+        )}
       </div>
     </header>
   );

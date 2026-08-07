@@ -55,7 +55,11 @@
   z-index: 1;
 }
 
-.toggle-switch__checkbox:not(:checked) + .toggle-switch__slider .toggle-switch__label_f,
-.toggle-switch__checkbox:checked + .toggle-switch__slider .toggle-switch__label_c {
+.toggle-switch__checkbox:not(:checked)
+  + .toggle-switch__slider
+  .toggle-switch__label_f,
+.toggle-switch__checkbox:checked
+  + .toggle-switch__slider
+  .toggle-switch__label_c {
   color: #fff;
 }

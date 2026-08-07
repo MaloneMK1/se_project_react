@@ -1,7 +1,15 @@
 .sidebar {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.sidebar__user {
+  display: flex;
   align-items: center;
   gap: 16px;
+  margin-bottom: 16px;
 }
 
 .sidebar__avatar {
@@ -15,6 +23,22 @@
   color: #fff;
   font-size: 24px;
   font-weight: 700;
+  object-fit: cover;
+}
+
+.sidebar__button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #000;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.sidebar__button:hover {
+  color: #555;
 }
 
 .sidebar__username {

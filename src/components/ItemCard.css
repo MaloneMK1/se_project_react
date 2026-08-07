@@ -1,6 +1,26 @@
 .card {
+  position: relative;
   width: 323px;
   height: 326px;
+}
+
+.card__like-button {
+  position: absolute;
+  z-index: 2;
+  top: 17px;
+  right: 18px;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #0000004d;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.card__like-button:hover,
+.card__like-button_active {
+  color: #000;
 }
 
 .card__button {

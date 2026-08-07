@@ -1,7 +1,13 @@
+import { useContext } from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import "./ItemModal.css";
 
 function ItemModal({ card, isOpen, onClose, onDeleteClick }) {
+  const currentUser = useContext(CurrentUserContext);
   const imageSrc = card?.imageUrl || card?.link;
+  const ownerId =
+    typeof card?.owner === "object" ? card.owner?._id : card?.owner;
+  const isOwn = ownerId === currentUser?._id;
 
   function handleOverlayClick(event) {
     if (event.target === event.currentTarget) {
@@ -33,13 +39,15 @@ function ItemModal({ card, isOpen, onClose, onDeleteClick }) {
                 <h2 className="item-modal__title">{card.name}</h2>
                 <p className="item-modal__weather">Weather: {card.weather}</p>
               </div>
-              <button
-                className="item-modal__delete-button"
-                type="button"
-                onClick={handleDeleteClick}
-              >
-                Delete item
-              </button>
+              {isOwn && (
+                <button
+                  className="item-modal__delete-button"
+                  type="button"
+                  onClick={handleDeleteClick}
+                >
+                  Delete item
+                </button>
+              )}
             </div>
           </>
         )}
