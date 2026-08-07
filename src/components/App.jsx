@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import "../App.css";
 import { CurrentTemperatureUnitContext } from "../contexts/CurrentTemperatureUnitContext";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -26,6 +26,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import RegisterModal from "./RegisterModal";
 
 function App() {
+  const navigate = useNavigate();
   const [weatherData, setWeatherData] = useState({
     type: "warm",
     temp: { F: 75, C: 24 },
@@ -108,6 +109,7 @@ function App() {
         setIsLoggedIn(true);
         resetForm?.();
         handleCloseModal();
+        navigate("/");
       })
       .catch((error) => console.error("Unable to log in:", error));
   }
