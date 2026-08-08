@@ -37,6 +37,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isCheckingToken, setIsCheckingToken] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState(null);
   const [cardToDelete, setCardToDelete] = useState(null);
@@ -79,26 +80,20 @@ function App() {
       .finally(() => setIsCheckingToken(false));
   }, []);
 
-  useEffect(() => {
-    if (!activeModal) {
-      return undefined;
-    }
-
-    function handleEscClose(event) {
-      if (event.key === "Escape") {
-        handleCloseModal();
-      }
-    }
-
-    document.addEventListener("keydown", handleEscClose);
-    return () => document.removeEventListener("keydown", handleEscClose);
-  }, [activeModal, handleCloseModal]);
-
   function getToken() {
     return localStorage.getItem("jwt");
   }
 
-  function handleLogin(credentials, resetForm) {
+  function handleSubmit(makeRequest, errorMessage) {
+    setIsLoading(true);
+
+    return makeRequest()
+      .then(handleCloseModal)
+      .catch((error) => console.error(errorMessage, error))
+      .finally(() => setIsLoading(false));
+  }
+
+  function authenticate(credentials) {
     return authorize(credentials)
       .then(({ token }) => {
         localStorage.setItem("jwt", token);
@@ -107,22 +102,30 @@ function App() {
       .then((user) => {
         setCurrentUser(user);
         setIsLoggedIn(true);
-        resetForm?.();
-        handleCloseModal();
         navigate("/");
-      })
-      .catch((error) => console.error("Unable to log in:", error));
+      });
+  }
+
+  function handleLogin(credentials, resetForm) {
+    return handleSubmit(
+      () => authenticate(credentials).then(() => resetForm?.()),
+      "Unable to log in:",
+    );
   }
 
   function handleRegister(userData, resetForm) {
-    return register(userData)
-      .then(() =>
-        handleLogin(
-          { email: userData.email, password: userData.password },
-          resetForm,
-        ),
-      )
-      .catch((error) => console.error("Unable to register:", error));
+    return handleSubmit(
+      () =>
+        register(userData)
+          .then(() =>
+            authenticate({
+              email: userData.email,
+              password: userData.password,
+            }),
+          )
+          .then(() => resetForm()),
+      "Unable to register:",
+    );
   }
 
   function handleLogout() {
@@ -130,16 +133,18 @@ function App() {
     setCurrentUser(null);
     setIsLoggedIn(false);
     handleCloseModal();
+    navigate("/");
   }
 
   function handleAddItem(values, resetForm) {
-    addItem(values, getToken())
-      .then((newItem) => {
-        setClothingItems((items) => [newItem, ...items]);
-        resetForm();
-        handleCloseModal();
-      })
-      .catch((error) => console.error("Unable to add item:", error));
+    return handleSubmit(
+      () =>
+        addItem(values, getToken()).then((newItem) => {
+          setClothingItems((items) => [newItem, ...items]);
+          resetForm();
+        }),
+      "Unable to add item:",
+    );
   }
 
   function handleCardDelete() {
@@ -147,14 +152,16 @@ function App() {
       return;
     }
 
-    deleteItem(cardToDelete._id, getToken())
-      .then(() => {
-        setClothingItems((items) =>
-          items.filter((item) => item._id !== cardToDelete._id),
-        );
-        handleCloseModal();
-      })
-      .catch((error) => console.error("Unable to delete item:", error));
+    const itemId = cardToDelete._id;
+    return handleSubmit(
+      () =>
+        deleteItem(itemId, getToken()).then(() => {
+          setClothingItems((items) =>
+            items.filter((item) => item._id !== itemId),
+          );
+        }),
+      "Unable to delete item:",
+    );
   }
 
   function handleCardLike({ id, isLiked }) {
@@ -170,12 +177,10 @@ function App() {
   }
 
   function handleUpdateProfile(values) {
-    updateUser(values, getToken())
-      .then((user) => {
-        setCurrentUser(user);
-        handleCloseModal();
-      })
-      .catch((error) => console.error("Unable to update profile:", error));
+    return handleSubmit(
+      () => updateUser(values, getToken()).then(setCurrentUser),
+      "Unable to update profile:",
+    );
   }
 
   function handleToggleSwitchChange() {
@@ -237,21 +242,27 @@ function App() {
 
           <RegisterModal
             isOpen={activeModal === "register"}
+            isLoading={isLoading}
             onClose={handleCloseModal}
             onRegister={handleRegister}
+            onSwitchToLogin={() => setActiveModal("login")}
           />
           <LoginModal
             isOpen={activeModal === "login"}
+            isLoading={isLoading}
             onClose={handleCloseModal}
             onLogin={handleLogin}
+            onSwitchToRegister={() => setActiveModal("register")}
           />
           <EditProfileModal
             isOpen={activeModal === "edit-profile"}
+            isLoading={isLoading}
             onClose={handleCloseModal}
             onUpdateProfile={handleUpdateProfile}
           />
           <AddItemModal
             isOpen={activeModal === "add-garment"}
+            isLoading={isLoading}
             onAddItem={handleAddItem}
             onCloseModal={handleCloseModal}
           />
@@ -266,6 +277,7 @@ function App() {
           />
           <DeleteConfirmationModal
             isOpen={activeModal === "delete-confirmation"}
+            isLoading={isLoading}
             onClose={handleCloseModal}
             onConfirm={handleCardDelete}
           />

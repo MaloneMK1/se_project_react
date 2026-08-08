@@ -1,17 +1,11 @@
 import "./DeleteConfirmationModal.css";
+import { useModalClose } from "../hooks/useModalClose";
 
-function DeleteConfirmationModal({ isOpen, onClose, onConfirm }) {
-  function handleOverlayClick(event) {
-    if (event.target === event.currentTarget) {
-      onClose();
-    }
-  }
+function DeleteConfirmationModal({ isOpen, isLoading, onClose, onConfirm }) {
+  useModalClose(isOpen, onClose);
 
   return (
-    <div
-      className={`modal delete-modal ${isOpen ? "modal_is-opened" : ""}`}
-      onMouseDown={handleOverlayClick}
-    >
+    <div className={`modal delete-modal ${isOpen ? "modal_is-opened" : ""}`}>
       <div className="delete-modal__content">
         <button
           className="delete-modal__close"
@@ -27,13 +21,15 @@ function DeleteConfirmationModal({ isOpen, onClose, onConfirm }) {
           className="delete-modal__confirm"
           type="button"
           onClick={onConfirm}
+          disabled={isLoading}
         >
-          Yes, delete item
+          {isLoading ? "Deleting..." : "Yes, delete item"}
         </button>
         <button
           className="delete-modal__cancel"
           type="button"
           onClick={onClose}
+          disabled={isLoading}
         >
           Cancel
         </button>

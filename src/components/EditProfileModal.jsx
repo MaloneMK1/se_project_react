@@ -8,7 +8,7 @@ const defaultValues = {
   avatar: "",
 };
 
-function EditProfileModal({ isOpen, onClose, onUpdateProfile }) {
+function EditProfileModal({ isOpen, isLoading, onClose, onUpdateProfile }) {
   const currentUser = useContext(CurrentUserContext);
   const { values, handleChange, resetForm } = useForm(defaultValues);
 
@@ -31,6 +31,8 @@ function EditProfileModal({ isOpen, onClose, onUpdateProfile }) {
       title="Change profile data"
       name="edit-profile"
       buttonText="Save changes"
+      loadingText="Saving..."
+      isLoading={isLoading}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}

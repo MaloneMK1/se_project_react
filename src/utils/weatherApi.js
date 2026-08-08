@@ -1,4 +1,4 @@
-import { checkResponse } from "./api";
+import { request } from "./api";
 
 export function getWeatherCondition(temperature) {
   if (temperature >= 86) {
@@ -26,9 +26,7 @@ export function filterWeatherData(weatherApiResponse) {
 }
 
 export function getWeather({ latitude, longitude }, apiKey) {
-  return fetch(
+  return request(
     `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=imperial&appid=${apiKey}`,
-  )
-    .then(checkResponse)
-    .then(filterWeatherData);
+  ).then(filterWeatherData);
 }

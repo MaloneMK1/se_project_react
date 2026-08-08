@@ -6,7 +6,13 @@ const defaultValues = {
   password: "",
 };
 
-function LoginModal({ isOpen, onClose, onLogin }) {
+function LoginModal({
+  isOpen,
+  isLoading,
+  onClose,
+  onLogin,
+  onSwitchToRegister,
+}) {
   const { values, handleChange, resetForm } = useForm(defaultValues);
 
   function handleSubmit(event) {
@@ -19,6 +25,10 @@ function LoginModal({ isOpen, onClose, onLogin }) {
       title="Log in"
       name="login"
       buttonText="Log in"
+      loadingText="Logging in..."
+      isLoading={isLoading}
+      secondaryButtonText="or Sign up"
+      onSecondaryClick={onSwitchToRegister}
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}

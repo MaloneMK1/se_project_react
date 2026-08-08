@@ -7,7 +7,7 @@ const defaultValues = {
   weather: "",
 };
 
-function AddItemModal({ isOpen, onAddItem, onCloseModal }) {
+function AddItemModal({ isOpen, isLoading, onAddItem, onCloseModal }) {
   const { values, handleChange, resetForm } = useForm(defaultValues);
 
   function handleSubmit(event) {
@@ -20,6 +20,8 @@ function AddItemModal({ isOpen, onAddItem, onCloseModal }) {
       title="New garment"
       name="add-garment"
       buttonText="Add garment"
+      loadingText="Adding..."
+      isLoading={isLoading}
       isOpen={isOpen}
       onClose={onCloseModal}
       onSubmit={handleSubmit}

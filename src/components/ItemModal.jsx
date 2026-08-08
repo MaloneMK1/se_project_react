@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { useModalClose } from "../hooks/useModalClose";
 import "./ItemModal.css";
 
 function ItemModal({ card, isOpen, onClose, onDeleteClick }) {
@@ -8,22 +9,14 @@ function ItemModal({ card, isOpen, onClose, onDeleteClick }) {
   const ownerId =
     typeof card?.owner === "object" ? card.owner?._id : card?.owner;
   const isOwn = ownerId === currentUser?._id;
-
-  function handleOverlayClick(event) {
-    if (event.target === event.currentTarget) {
-      onClose();
-    }
-  }
+  useModalClose(isOpen, onClose);
 
   function handleDeleteClick() {
     onDeleteClick(card);
   }
 
   return (
-    <div
-      className={`modal item-modal ${isOpen ? "modal_is-opened" : ""}`}
-      onMouseDown={handleOverlayClick}
-    >
+    <div className={`modal item-modal ${isOpen ? "modal_is-opened" : ""}`}>
       <div className="item-modal__content">
         <button
           className="item-modal__close"

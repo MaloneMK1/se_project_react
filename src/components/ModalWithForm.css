@@ -115,7 +115,6 @@
 }
 
 .modal__submit {
-  align-self: flex-start;
   min-width: 124px;
   border: 0;
   border-radius: 4px;
@@ -125,6 +124,32 @@
   cursor: pointer;
   font-size: 16px;
   line-height: 1.25;
+}
+
+.modal__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal__secondary-button {
+  border: 0;
+  padding: 8px 0;
+  background: transparent;
+  color: #00000080;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+.modal__secondary-button:hover {
+  color: #000;
+}
+
+.modal__submit:disabled,
+.modal__secondary-button:disabled {
+  cursor: default;
+  opacity: 0.6;
 }
 
 .modal__submit:hover {
